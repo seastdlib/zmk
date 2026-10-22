@@ -20,6 +20,7 @@
 #include <zephyr/bluetooth/uuid.h>
 #include <zephyr/bluetooth/gatt.h>
 #include <zephyr/bluetooth/hci_types.h>
+#include <zephyr/bluetooth/byteorder.h>
 
 #if IS_ENABLED(CONFIG_SETTINGS)
 
@@ -71,7 +72,7 @@ BUILD_ASSERT(
     "ERROR: BLE device name is too long. Max length: " STRINGIFY(CONFIG_BT_DEVICE_NAME_MAX));
 
 static struct bt_data zmk_ble_ad[] = {
-    BT_DATA_BYTES(BT_DATA_GAP_APPEARANCE, 0xC1, 0x03),
+    BT_DATA_BYTES(BT_DATA_GAP_APPEARANCE, BT_BYTES_LIST_LE16(CONFIG_BT_DEVICE_APPEARANCE)),
     BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
     BT_DATA_BYTES(BT_DATA_UUID16_SOME, 0x12, 0x18, /* HID Service */
                   0x0f, 0x18                       /* Battery Service */
